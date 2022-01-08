@@ -25,11 +25,7 @@ namespace Donut
                     char pixel = ' ';
                     if (MathF.Pow(y, 2) + MathF.Pow(x, 2) <= 0.2)
                     {
-                        pixel = '.';
-                        if (new Vector2(x, y) < 0.3f)
-                        {
-                            pixel = '@';
-                        }
+                        pixel = '.';                        
                     }                    
                     screen[i + j * width] = pixel;
                 }
