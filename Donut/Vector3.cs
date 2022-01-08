@@ -12,19 +12,19 @@ namespace Donut
         public float y { get; private set; }
         public float z { get; private set; }
 
-        Vector3(float value)
+        public Vector3(float value)
         {
             x = value;
             y = value;
             z = value;
         }
-        Vector3(Vector2 v, float z)
+        public Vector3(Vector2 v, float z)
         {
             x = v.x;
             y = v.y;
             this.z = z;
         }
-        Vector3(float x, float y, float z)
+        public Vector3(float x, float y, float z)
         {
             this.x = x;
             this.y = y;

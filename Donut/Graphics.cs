@@ -21,7 +21,7 @@ namespace Donut
             this.multiplier = multiplier;
             aspect = (float)width / height;
             pixelAspect = 11.0f / 24.0f;
-            buffer = new char[width * height];
+            buffer = new char[width * height];            
         }
 
         private void Reset()
@@ -37,6 +37,15 @@ namespace Donut
             Console.SetCursorPosition(0, 0);
         }
 
+        public void Draw()
+        {         
+            
+            
+            Console.Write(buffer);     
+
+        }
+
 
     }
+
 }
