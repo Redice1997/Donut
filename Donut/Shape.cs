@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Donut
 {
-    abstract class Figure
+    public abstract class Shape
     {
         protected Vector3 position;               
 
-        public Figure(Vector3 position)
+        public Shape(Vector3 position)
         {
             this.position = position;            
         }
@@ -18,23 +18,18 @@ namespace Donut
         public void Move(Vector3 direction)
         {
             position += direction;
-        }          
-
+        }  
 
     }
 
-    class Sphere : Figure
+    public class Sphere : Shape
     {
-        protected float radius;       
+        protected double radius;       
         
-        public Sphere(Vector3 position, float radius) : base(position)
+        public Sphere(Vector3 position, double radius) : base(position)
         {
             this.radius = radius;
-        }
+        }        
         
-        private void CreateCollider()
-        {
-           
-        }
     }
 }

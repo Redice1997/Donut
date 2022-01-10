@@ -1,0 +1,16 @@
+C:\Users\User\source\repos\Donut\Donut\bin\Debug\net5.0\Donut.exe
+C:\Users\User\source\repos\Donut\Donut\bin\Debug\net5.0\Donut.deps.json
+C:\Users\User\source\repos\Donut\Donut\bin\Debug\net5.0\Donut.runtimeconfig.json
+C:\Users\User\source\repos\Donut\Donut\bin\Debug\net5.0\Donut.runtimeconfig.dev.json
+C:\Users\User\source\repos\Donut\Donut\bin\Debug\net5.0\Donut.dll
+C:\Users\User\source\repos\Donut\Donut\bin\Debug\net5.0\ref\Donut.dll
+C:\Users\User\source\repos\Donut\Donut\bin\Debug\net5.0\Donut.pdb
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.AssemblyInfo.cs
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.dll
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\ref\Donut.dll
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.pdb
+C:\Users\User\source\repos\Donut\Donut\obj\Debug\net5.0\Donut.genruntimeconfig.cache
