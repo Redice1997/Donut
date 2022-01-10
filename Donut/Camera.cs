@@ -17,14 +17,16 @@ namespace Donut
         
 
         private int xResolution;
-        private int yResolution;        
+        private int yResolution;
+
+        private const double PIXEL_ASPECT = 0.5;        
 
         public Camera()
         {
             Position = new Vector3(0);
             Diraction = new Vector3(0, 0, 1);
-            xResolution = 120;
-            yResolution = 30;
+            xResolution = 160;
+            yResolution = 60;            
         }
         public Camera(Vector3 position, Vector3 Lookat, int xResolution = 120, int yResolution = 30)
         {
@@ -47,7 +49,7 @@ namespace Donut
         public void ShowImage(params Shape[] shape)
         {
             char[] image = new char[xResolution * yResolution];
-            char[] grad = { ' ', '.', ':', '!', '/', '(', 'l', '7', 'Z', '$', '@' };
+            char[] grad = { ' ', '.', ':', '!', '/', '(', 'l', '1', 'Z', 'H', '9', '9', 'W', '8', '$', '@' };
             Console.SetWindowPosition(0, 0);
             Console.SetWindowSize(xResolution, yResolution);
             Console.SetBufferSize(xResolution, yResolution);
@@ -69,15 +71,16 @@ namespace Donut
 
         private void GeneratePixel(out double Intensity, in Vector2 pCoord, params Shape[] shape)
         {
-            Vector2 uv = new Vector2(pCoord.x / yResolution, pCoord.y / yResolution);
-            uv -= new Vector2(-0.5);
+            // Преобразование координат
+            double x = pCoord.x / xResolution * 2 - 1;
+            double y = pCoord.y / yResolution * 2 - 1;
+            x *= (double)xResolution / yResolution * PIXEL_ASPECT;            
+            Vector2 uv = new Vector2(x, -y);
+            // Преобразование координат
 
-            Vector3 ro = new Vector3(0, 0, -2);
-            Vector3 rd = new Vector3(uv, 0) - ro;
+            double d = 1 - uv.Length;
 
-            Vector3 p = new Vector3(0, 0, 2);
-            double d = Vector3.Distance(ro, rd, p);
-
+            
 
             Intensity = d;            
         }
