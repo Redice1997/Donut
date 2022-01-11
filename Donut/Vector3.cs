@@ -35,7 +35,7 @@ namespace Donut
             Length = Math.Sqrt(x * x + y * y + z * z);
         }
 
-        public Vector3 Normalized() => this / Length;       
+        public Vector3 Normalized() => Length != 0 ? (this / Length) : this;          
 
         public static Vector3 Cross(Vector3 a, Vector3 b) => new Vector3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
 

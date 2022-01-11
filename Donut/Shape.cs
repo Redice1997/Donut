@@ -5,31 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Donut
-{
-    public abstract class Shape
+{    
+    public abstract class Shape : ICanRayMarch
     {
-        protected Vector3 position;               
-
-        public Shape(Vector3 position)
-        {
-            this.position = position;            
-        }
-
-        public void Move(Vector3 direction)
-        {
-            position += direction;
-        }  
-
+        public Vector3 Position { get; set; }
+        abstract public double GetDist(Vector3 point);        
     }
 
     public class Sphere : Shape
     {
-        protected double radius;       
-        
-        public Sphere(Vector3 position, double radius) : base(position)
+        public double Radius { get; set; }
+        public override double GetDist(Vector3 point)
         {
-            this.radius = radius;
-        }        
-        
+            return (point - Position).Length - Radius;
+        }
     }
+
+    //public class Cube : Shape
+
 }
