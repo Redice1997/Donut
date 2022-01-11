@@ -110,10 +110,8 @@ namespace Donut
             double y = pCoord.y / yResolution * 2 - 1;
             x *= (double)xResolution / yResolution * PIXEL_ASPECT;            
             Vector2 uv = new Vector2(x, -y);
+            Direction = Front * Zoom + Right * uv.x + Up * uv.y;
             // Преобразование координат
-
-            Vector3 I = Position + Front * Zoom + Right * uv.x + Up * uv.y;
-            Direction = I - Position;
 
             double min = RayMarch(shapes[0]);
 

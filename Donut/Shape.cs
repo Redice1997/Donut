@@ -19,8 +19,20 @@ namespace Donut
         {
             return (point - Position).Length - Radius;
         }
-    }
+        public Vector3 GetNormal(Vector3 p)
+        {
+            double d = GetDist(p);
+            Vector2 e = new Vector2(0.01, 0);
+            Vector3 n = new Vector3
+                (
+                d - GetDist(new Vector3(p.x - e.x, p.y - e.y, p.z - e.y)),
+                d - GetDist(new Vector3(p.x - e.y, p.y - e.x, p.z - e.y)),
+                d - GetDist(new Vector3(p.x - e.y, p.y - e.y, p.z - e.x))
+                );
+            return n.Normalized();
+        }
 
-    //public class Cube : Shape
+    }
+    
 
 }
