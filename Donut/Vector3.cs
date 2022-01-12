@@ -8,31 +8,28 @@ namespace Donut
 {
     public struct Vector3
     {
-        public double x { get; private set; }
-        public double y { get; private set; }
-        public double z { get; private set; }
-        public double Length { get; private set; }
+        public double x { get; set; }
+        public double y { get; set; }
+        public double z { get; set; }
+        public double Length { get => Math.Sqrt(x * x + y * y + z * z); }
 
         public Vector3(double value)
         {
             x = value;
             y = value;
-            z = value;
-            Length = Math.Sqrt(x * x + y * y + z * z);
+            z = value;            
         }
         public Vector3(Vector2 v, double z)
         {
             x = v.x;
             y = v.y;
-            this.z = z;
-            Length = Math.Sqrt(x * x + y * y + z * z);
+            this.z = z;            
         }
         public Vector3(double x, double y, double z)
         {
             this.x = x;
             this.y = y;
-            this.z = z;
-            Length = Math.Sqrt(x * x + y * y + z * z);
+            this.z = z;            
         }
 
         public Vector3 Normalized() => Length != 0 ? (this / Length) : this;          

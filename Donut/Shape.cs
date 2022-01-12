@@ -33,7 +33,7 @@ namespace Donut
     {
         public Sphere() : base() { }
         public Sphere(double x, double y, double z) : base(x, y, z) { }
-        public double Radius { get; set; }
+        public double Radius { get; set; } = 1;
         public override double GetDist(Vector3 point) => (point - Position).Length - Radius;        
         public override Vector3 GetNormal(Vector3 p) => (p - Position).Normalized();    
 
@@ -52,6 +52,13 @@ namespace Donut
         public override double GetDist(Vector3 point) => (point - Position) * Normal;        
         public override Vector3 GetNormal(Vector3 p) => Normal;
         
+    }
+    public class Donut : Shape
+    {
+        public override double GetDist(Vector3 point)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

@@ -8,22 +8,20 @@ namespace Donut
 {
     public struct Vector2
     {
-        public double x { get; private set; }
-        public double y { get; private set; }
-        public double Length { get; private set; }
+        public double x { get; set; }
+        public double y { get; set; }
+        public double Length { get => Math.Sqrt(x * x + y * y); }
 
         public Vector2(double value)
         {
             x = value;
-            y = value;
-            Length = Math.Sqrt(x * x + y * y);
+            y = value;            
         }
        
         public Vector2(double x, double y) 
         {
             this.x = x;
-            this.y = y;
-            Length = Math.Sqrt(x * x + y * y);
+            this.y = y;            
         }
         public void Normalized()
         {

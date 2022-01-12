@@ -116,8 +116,7 @@ namespace Donut
             x *= (double)xResolution / yResolution * PIXEL_ASPECT;            
             Vector2 uv = new Vector2(x, y);
             Direction = Front * Zoom + Right * uv.x + Up * uv.y;
-            // Преобразование координат           
-
+            // Преобразование координат         
 
             Intensity = SetLight(shapes);        
         }
@@ -143,10 +142,13 @@ namespace Donut
             }
 
             Vector3 p = Position + Direction * d0;
-            Vector3 l = (LightPos - p).Normalized();
-            Vector3 n = shapes[index].GetNormal(p);            
+            //Vector3 l = (LightPos - p).Normalized();
+            Vector3 l = new Vector3(1, 1, 0).Normalized();
+            Vector3 n = shapes[index].GetNormal(p);
+            
+            double diff = l * n;
 
-            return l * n;                     
+            return Math.Clamp(diff, 0, 1);                     
         }
         public void ShowImage()
         {
