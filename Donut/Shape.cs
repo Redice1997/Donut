@@ -8,31 +8,50 @@ namespace Donut
 {    
     public abstract class Shape : ICanRayMarch
     {
+        public Shape() { }
+        public Shape(double x, double y, double z)
+        {
+            Position = new Vector3(x, y, z);
+        }
         public Vector3 Position { get; set; }
-        abstract public double GetDist(Vector3 point);        
+        public abstract double GetDist(Vector3 point);
+        public virtual Vector3 GetNormal(Vector3 p)
+        {
+            double d = GetDist(p);
+            double e = 0.001;
+            Vector3 n = new Vector3
+                (
+                d - GetDist(new Vector3(p.x - e, p.y, p.z)),
+                d - GetDist(new Vector3(p.x, p.y - e, p.z)),
+                d - GetDist(new Vector3(p.x, p.y, p.z - e))
+                );
+            return n.Normalized();
+        }
     }
 
     public class Sphere : Shape
     {
+        public Sphere() : base() { }
+        public Sphere(double x, double y, double z) : base(x, y, z) { }
         public double Radius { get; set; }
-        public override double GetDist(Vector3 point)
-        {
-            return (point - Position).Length - Radius;
-        }
-        public Vector3 GetNormal(Vector3 p)
-        {
-            double d = GetDist(p);
-            Vector2 e = new Vector2(0.01, 0);
-            Vector3 n = new Vector3
-                (
-                d - GetDist(new Vector3(p.x - e.x, p.y - e.y, p.z - e.y)),
-                d - GetDist(new Vector3(p.x - e.y, p.y - e.x, p.z - e.y)),
-                d - GetDist(new Vector3(p.x - e.y, p.y - e.y, p.z - e.x))
-                );
-            return n.Normalized();
-        }
+        public override double GetDist(Vector3 point) => (point - Position).Length - Radius;        
+        public override Vector3 GetNormal(Vector3 p) => (p - Position).Normalized();    
 
     }
-    
+    public class Plane : Shape
+    {
+        public Plane() : base() { }
+        public Plane(double x, double y, double z) : base(x, y, z) { }
+
+        private Vector3 normal = new Vector3(0, 1, 0);
+        public Vector3 Normal
+        {
+            get { return normal; }
+            set { normal = value.Normalized(); }
+        }
+        public override double GetDist(Vector3 point) => (point - Position) * Normal;        
+        public override Vector3 GetNormal(Vector3 p) => Normal;
+        
+    }
 
 }

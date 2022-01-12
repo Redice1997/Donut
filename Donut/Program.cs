@@ -10,7 +10,7 @@ namespace Donut
         {
             Sphere s1 = new Sphere();
 
-            s1.Position = new Vector3(1.2, 1, 0);
+            s1.Position = new Vector3(0, 1, 0);
             s1.Radius = 1;
 
             Sphere s2 = new Sphere();
@@ -18,24 +18,24 @@ namespace Donut
             s2.Position = new Vector3(-1.2, 1, 0);
             s2.Radius = 1;
 
+            Plane p1 = new Plane();
+
             Camera cam = new Camera();
 
-            cam.Position = new Vector3(0, 1, -6);
-            
+            cam.Position = new Vector3(0, 1, -6);            
             cam.Zoom = 3;
+            cam.SetResolution(160, 60);
 
-            Vector3 point = new Vector3(0, 1, 0);            
-            
+            cam.LookAt(s1.Position);            
+
             int t = 0;
             while (true)
             {
-                cam.Position = new Vector3(-6 * Math.Sin(t * 0.01), 1, -6 * Math.Cos(t * 0.01));                
-                cam.LookAt(point);
-                cam.ShowImage(s1, s2);
+                cam.LightPos = new Vector3(20 * Math.Sin(t * 0.02), 20, 20 * Math.Cos(t * 0.02));                
+                cam.ShowImage(s1);
                 t++;
             }
 
-            
 
             Console.ReadKey();
             
