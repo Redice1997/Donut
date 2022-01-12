@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Donut
 {
@@ -61,17 +63,20 @@ namespace Donut
         {
             get => yres;
             set => yres = Math.Clamp(value, 5, 100);
-        }          
+        }       
+               
 
-       
-
-        public void MoveTo(Vector3 direction)
+        public void SetPosition(double x, double y, double z)
         {
-            Position += direction;
+            Position = new Vector3(x, y, z);
         }
         public void LookAt(Vector3 point)
         {
             Front = point - Position;
+        }
+        public void LookAt(double x, double y, double z)
+        {
+            Front = new Vector3(x,y,z) - Position;
         }
         public void SetResolution(int width, int height)
         {
@@ -101,7 +106,7 @@ namespace Donut
 
             Console.Write(image);
             Console.SetCursorPosition(0, 0);
-        }
+        }        
 
         private void GeneratePixel(out double Intensity, in Vector2 pCoord, params Shape[] shapes)
         {
@@ -111,54 +116,49 @@ namespace Donut
             x *= (double)xResolution / yResolution * PIXEL_ASPECT;            
             Vector2 uv = new Vector2(x, y);
             Direction = Front * Zoom + Right * uv.x + Up * uv.y;
-            // Преобразование координат
-
-            double dist = GetDist(shapes[0]);
-
-            Vector3 point = Position + Direction * dist;
-
-            double diff = SetLight(point, shapes[0]);
-
-            //for (int i = 1; i < shapes.Length; i++)
-            //{
-            //    double a = RayMarch(shapes[i]);
-            //    if (a < d) d = a;
-            //}
+            // Преобразование координат           
 
 
-            Intensity = diff;        
+            Intensity = SetLight(shapes);        
         }
 
-        private double GetDist(Shape shape)
+        private double SetLight(Shape[] shapes)
         {
             double d0 = 0;
+            int index = 0;
 
             for (int i = 0; i < MAX_STEPS; i++)
             {
                 Vector3 point = Position + Direction * d0;
-                double dS = shape.GetDist(point);
-                d0 += dS;
-                if (d0 > MAX_DIST || dS < SURF_DIST) break;
-            }
-            
-            return d0;
+                List<double> steps = new List<double>();
 
-            for (int i = 0; i < MAX_STEPS; i++)
-            {
-                Vector3 point = Position + Direction * d0;
-                double dS = shape.GetDist(point);
+                foreach (var shape in shapes)
+                {
+                    steps.Add(shape.GetDist(point));
+                }
+                double dS = steps.Min();
+                index = steps.IndexOf(dS);
                 d0 += dS;
-                if (d0 > MAX_DIST || dS < SURF_DIST) break;
+                if (d0 > MAX_DIST || dS < SURF_DIST) break;                
             }
-        }
 
-        private double SetLight(Vector3 p, Shape shape)
-        {
+            Vector3 p = Position + Direction * d0;
             Vector3 l = (LightPos - p).Normalized();
-            Vector3 n = shape.GetNormal(p);
-            double dif = l * n;
-            return dif;
+            Vector3 n = shapes[index].GetNormal(p);            
+
+            return l * n;                     
         }
-        
+        public void ShowImage()
+        {
+            char[] image = new char[xResolution * yResolution];
+            Console.SetWindowPosition(0, 0);
+            Console.SetWindowSize(xResolution, yResolution);
+            Console.SetBufferSize(xResolution, yResolution);
+            Console.CursorVisible = false;
+
+            Console.Write(image);
+            Console.SetCursorPosition(0, 0);
+        }
+
     }
 }
