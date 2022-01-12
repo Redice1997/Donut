@@ -138,17 +138,20 @@ namespace Donut
                 double dS = steps.Min();
                 index = steps.IndexOf(dS);
                 d0 += dS;
-                if (d0 > MAX_DIST || dS < SURF_DIST) break;                
+                if (d0 > MAX_DIST) break;
+                else if (dS < SURF_DIST)
+                {
+                    Vector3 p = Position + Direction * d0;
+                    Vector3 l = (LightPos - p).Normalized();
+                    //Vector3 l = new Vector3(1, 1, 0).Normalized();
+                    Vector3 n = shapes[index].GetNormal(p);
+
+                    double diff = l * n;
+
+                    return Math.Clamp(diff, 0, 1);
+                }                 
             }
-
-            Vector3 p = Position + Direction * d0;
-            //Vector3 l = (LightPos - p).Normalized();
-            Vector3 l = new Vector3(1, 1, 0).Normalized();
-            Vector3 n = shapes[index].GetNormal(p);
-            
-            double diff = l * n;
-
-            return Math.Clamp(diff, 0, 1);                     
+            return 0;                                 
         }
         public void ShowImage()
         {

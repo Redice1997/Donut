@@ -17,13 +17,13 @@ namespace Donut
 
             Camera cam = new Camera(0, 1, -6);                   
             cam.Zoom = 3;
-            cam.SetResolution(120, 30);
+            cam.SetResolution(160, 50);
             cam.LookAt(0, 1, 10);            
 
             int t = 0;
             while (true)
             {
-                //cam.LightPos = new Vector3(-10 * Math.Sin(t * 0.02), 10, -10 * Math.Cos(t * 0.02));
+                cam.LightPos = new Vector3(-6 * Math.Sin(t * 0.04), 6, -6 * Math.Cos(t * 0.04));
                 //cam.LightPos = new Vector3(cam.LightPos.x, cam.LightPos.y, cam.LightPos.z + t * 0.01);
                 cam.ShowImage(p1, s1);
                 t++;
