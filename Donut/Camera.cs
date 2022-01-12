@@ -140,7 +140,16 @@ namespace Donut
                 d0 += dS;
                 if (d0 > MAX_DIST || dS < SURF_DIST) break;
             }
+            
             return d0;
+
+            for (int i = 0; i < MAX_STEPS; i++)
+            {
+                Vector3 point = Position + Direction * d0;
+                double dS = shape.GetDist(point);
+                d0 += dS;
+                if (d0 > MAX_DIST || dS < SURF_DIST) break;
+            }
         }
 
         private double SetLight(Vector3 p, Shape shape)
