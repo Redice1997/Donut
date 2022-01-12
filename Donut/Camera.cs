@@ -140,18 +140,39 @@ namespace Donut
                 d0 += dS;
                 if (d0 > MAX_DIST) break;
                 else if (dS < SURF_DIST)
-                {
+                {                    
                     Vector3 p = Position + Direction * d0;
-                    Vector3 l = (LightPos - p).Normalized();
-                    //Vector3 l = new Vector3(1, 1, 0).Normalized();
+                    Vector3 l = (LightPos - p).Normalized();                    
                     Vector3 n = shapes[index].GetNormal(p);
 
                     double diff = l * n;
 
-                    return Math.Clamp(diff, 0, 1);
+                    return IsInShadow(point, shapes) ? Math.Clamp(diff * 0.1, 0, 1) : Math.Clamp(diff, 0, 1);
+                        
                 }                 
             }
             return 0;                                 
+        }
+
+        private bool IsInShadow(Vector3 startPoint, Shape[] shapes)
+        {
+            Vector3 toLight = (LightPos - startPoint).Normalized();
+            double distance = (LightPos - startPoint).Length;
+            double d0 = SURF_DIST * 20;
+            
+            while (d0 < distance)
+            {
+                Vector3 p = startPoint + toLight * d0;
+                List<double> steps = new List<double>();
+                foreach (var shape in shapes)
+                {
+                    steps.Add(shape.GetDist(p));
+                }
+                double dS = steps.Min();                
+                d0 += dS;
+                if (dS < SURF_DIST) return true;
+            }
+            return false;
         }
         public void ShowImage()
         {

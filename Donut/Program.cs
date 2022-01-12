@@ -23,8 +23,9 @@ namespace Donut
             int t = 0;
             while (true)
             {
-                cam.LightPos = new Vector3(-6 * Math.Sin(t * 0.04), 6, -6 * Math.Cos(t * 0.04));
+                //cam.LightPos = new Vector3(-6 * Math.Sin(t * 0.1), 10, -6 * Math.Cos(t * 0.1));
                 //cam.LightPos = new Vector3(cam.LightPos.x, cam.LightPos.y, cam.LightPos.z + t * 0.01);
+                cam.LightPos = new Vector3(0, 1000, 0);
                 cam.ShowImage(p1, s1);
                 t++;
             }
