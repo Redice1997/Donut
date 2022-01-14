@@ -122,7 +122,57 @@ namespace Donut
 
             Intensity = SetLight();        
         }
+        private double RayMarch(Vector3 ro, Vector3 rd)
+        {
+            double d0 = 0;
+            for (int i = 0; i < MAX_STEPS; i++)
+            {
+                Vector3 p = ro + rd * d0;
+                double dS = GetDist(p);
+                d0 += dS;
+                if (d0 > MAX_DIST || dS < SURF_DIST) break;
+            }
+            return d0;
+        }
+        private double GetDist(Vector3 point)
+        {
+            List<double> steps = new List<double>();
 
+            foreach (var shape in shapes)
+                steps.Add(shape.GiveDist(point));
+
+            double minDist = steps.Min();
+
+            return minDist;
+        }
+
+        private double GetLight()
+        {
+            double d0 = RayMarch(Position, Direction);
+
+            Vector3 p = Position + Direction * d0;
+            Vector3 l = (LightPos - p).Normalized();
+            Vector3 n = GetNormal(p);
+
+            double diff = Math.Clamp(n * l, 0, 1);
+
+            double d = RayMarch(p + n * SURF_DIST * 2, l);
+            if (d < (LightPos - p).Length) diff *= 0.1;
+
+            return diff;
+        }
+        private Vector3 GetNormal(Vector3 p)
+        {
+            double d = GetDist(p);
+            double e = 0.001;
+            Vector3 n = new Vector3
+                (
+                d - GetDist(new Vector3(p.x - e, p.y, p.z)),
+                d - GetDist(new Vector3(p.x, p.y - e, p.z)),
+                d - GetDist(new Vector3(p.x, p.y, p.z - e))
+                );
+            return n.Normalized();
+        }
         private double SetLight()
         {
             double d0 = 0;
@@ -142,19 +192,20 @@ namespace Donut
                 d0 += dS;
                 if (d0 > MAX_DIST) break;
                 else if (dS < SURF_DIST)
-                {                    
+                {
                     Vector3 p = Position + Direction * d0;
-                    Vector3 l = (LightPos - p).Normalized();                    
-                    Vector3 n = shapes[index].GetNormal(p);
+                    Vector3 l = (LightPos - p).Normalized();
+                    Vector3 n = shapes[index].GiveNormal(p);
 
                     double diff = l * n;
 
-                    return IsInShadow(point) ? Math.Clamp(diff * 0.2, 0, 1) : Math.Clamp(diff, 0, 1);
-                    
-                        
-                }                 
+                    //return 0.09 + Math.Clamp(diff, 0, 1);
+
+                    return IsInShadow(point) ? Math.Clamp(diff * 0.2, 0, 1) : Math.Clamp(diff, 0, 1) + 0.1;
+
+                }
             }
-            return 0;                                 
+            return 0;
         }
 
         private bool IsInShadow(Vector3 startPoint)
@@ -162,7 +213,7 @@ namespace Donut
             Vector3 toLight = (LightPos - startPoint).Normalized();
             double distance = (LightPos - startPoint).Length;
             double d0 = SURF_DIST * 8;
-            
+
             while (d0 < distance)
             {
                 Vector3 p = startPoint + toLight * d0;
@@ -171,23 +222,15 @@ namespace Donut
                 {
                     steps.Add(shape.GiveDist(p));
                 }
-                double dS = steps.Min();                
+                double dS = steps.Min();
                 d0 += dS;
                 if (dS < SURF_DIST) return true;
             }
             return false;
-        }
-        private double GetDist(Vector3 point)
-        {   
-            List<double> steps = new List<double>();
+        }     
 
-            foreach (var shape in shapes)            
-                steps.Add(shape.GiveDist(point));
-            
-            double minDist = steps.Min();
-
-            return minDist;
-        }
+        
+        
         public void Show()
         { 
             char[] image = new char[xResolution * yResolution];

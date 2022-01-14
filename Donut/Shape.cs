@@ -15,7 +15,7 @@ namespace Donut
         }
         public Vector3 Position { get; set; }
         public abstract double GiveDist(Vector3 point);
-        public virtual Vector3 GetNormal(Vector3 p)
+        public virtual Vector3 GiveNormal(Vector3 p)
         {
             double d = GiveDist(p);
             double e = 0.001;
@@ -35,7 +35,7 @@ namespace Donut
         public Sphere(double x, double y, double z) : base(x, y, z) { }
         public double Radius { get; set; } = 1;
         public override double GiveDist(Vector3 point) => (point - Position).Length - Radius;        
-        public override Vector3 GetNormal(Vector3 p) => (p - Position).Normalized();    
+        public override Vector3 GiveNormal(Vector3 p) => (p - Position).Normalized();    
 
     }
     public class Plane : Shape
@@ -50,7 +50,7 @@ namespace Donut
             set { normal = value.Normalized(); }
         }
         public override double GiveDist(Vector3 point) => (point - Position) * Normal;        
-        public override Vector3 GetNormal(Vector3 p) => Normal;
+        public override Vector3 GiveNormal(Vector3 p) => Normal;
         
     }
     public class Donut : Shape
