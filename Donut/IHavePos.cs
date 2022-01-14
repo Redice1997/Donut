@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Donut
 {
-    public interface ICanRayMarch
+    public interface IHavePos
     {
-        public double GetDist(Vector3 point);
+        public double GiveDist(Vector3 point);
     }
 }

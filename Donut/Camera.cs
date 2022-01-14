@@ -63,8 +63,9 @@ namespace Donut
         {
             get => yres;
             set => yres = Math.Clamp(value, 5, 100);
-        }       
-               
+        }
+        private Shape[] shapes;
+        
 
         public void SetPosition(double x, double y, double z)
         {
@@ -85,20 +86,21 @@ namespace Donut
         }
 
 
-        public void ShowImage(params Shape[] shapes)
+        public void Show(params Shape[] shapes)
         {
+            this.shapes = shapes;
             char[] image = new char[xResolution * yResolution];
             char[] grad = { ' ', '.', ':', '!', '/', '(', 'l', '1', 'Z', 'H', '9', '9', 'W', '8', '$', '@' };
             Console.SetWindowPosition(0, 0);
             Console.SetWindowSize(xResolution, yResolution);
             Console.SetBufferSize(xResolution, yResolution);
-            Console.CursorVisible = false;
+            Console.CursorVisible = false;            
 
             for (int i = 0; i < xResolution; i++)
             {
                 for (int j = 0; j < yResolution; j++)
                 {
-                    GeneratePixel(out double Intensity, new Vector2(i, j), shapes);
+                    GeneratePixel(out double Intensity, new Vector2(i, j));
                     Intensity = Math.Clamp(Intensity, 0, 1);
                     image[i + j * xResolution] = grad[(int)(Intensity * (grad.Length - 1))];
                 }
@@ -108,7 +110,7 @@ namespace Donut
             Console.SetCursorPosition(0, 0);
         }        
 
-        private void GeneratePixel(out double Intensity, in Vector2 pCoord, params Shape[] shapes)
+        private void GeneratePixel(out double Intensity, in Vector2 pCoord)
         {
             // Преобразование координат
             double x = pCoord.x / xResolution * 2 - 1;
@@ -118,10 +120,10 @@ namespace Donut
             Direction = Front * Zoom + Right * uv.x + Up * uv.y;
             // Преобразование координат         
 
-            Intensity = SetLight(shapes);        
+            Intensity = SetLight();        
         }
 
-        private double SetLight(Shape[] shapes)
+        private double SetLight()
         {
             double d0 = 0;
             int index = 0;
@@ -133,7 +135,7 @@ namespace Donut
 
                 foreach (var shape in shapes)
                 {
-                    steps.Add(shape.GetDist(point));
+                    steps.Add(shape.GiveDist(point));
                 }
                 double dS = steps.Min();
                 index = steps.IndexOf(dS);
@@ -147,18 +149,19 @@ namespace Donut
 
                     double diff = l * n;
 
-                    return IsInShadow(point, shapes) ? Math.Clamp(diff * 0.1, 0, 1) : Math.Clamp(diff, 0, 1);
+                    return IsInShadow(point) ? Math.Clamp(diff * 0.2, 0, 1) : Math.Clamp(diff, 0, 1);
+                    
                         
                 }                 
             }
             return 0;                                 
         }
 
-        private bool IsInShadow(Vector3 startPoint, Shape[] shapes)
+        private bool IsInShadow(Vector3 startPoint)
         {
             Vector3 toLight = (LightPos - startPoint).Normalized();
             double distance = (LightPos - startPoint).Length;
-            double d0 = SURF_DIST * 20;
+            double d0 = SURF_DIST * 8;
             
             while (d0 < distance)
             {
@@ -166,7 +169,7 @@ namespace Donut
                 List<double> steps = new List<double>();
                 foreach (var shape in shapes)
                 {
-                    steps.Add(shape.GetDist(p));
+                    steps.Add(shape.GiveDist(p));
                 }
                 double dS = steps.Min();                
                 d0 += dS;
@@ -174,8 +177,19 @@ namespace Donut
             }
             return false;
         }
-        public void ShowImage()
-        {
+        private double GetDist(Vector3 point)
+        {   
+            List<double> steps = new List<double>();
+
+            foreach (var shape in shapes)            
+                steps.Add(shape.GiveDist(point));
+            
+            double minDist = steps.Min();
+
+            return minDist;
+        }
+        public void Show()
+        { 
             char[] image = new char[xResolution * yResolution];
             Console.SetWindowPosition(0, 0);
             Console.SetWindowSize(xResolution, yResolution);
