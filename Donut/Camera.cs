@@ -56,13 +56,13 @@ namespace Donut
         private int xResolution 
         { 
             get => xres; 
-            set => xres = Math.Clamp(value, 10, 200); 
+            set => xres = Math.Clamp(value, 10, 220); 
         }
         private int yres = 30;
         private int yResolution 
         {
             get => yres;
-            set => yres = Math.Clamp(value, 5, 100);
+            set => yres = Math.Clamp(value, 5, 60);
         }
         private Shape[] shapes;
         
@@ -149,9 +149,9 @@ namespace Donut
 
                     double diff = l * n;
 
-                    //return 0.09 + Math.Clamp(diff, 0, 1);
+                    return 0.09 + Math.Clamp(diff + 0.2, 0, 1);
 
-                    return IsInShadow(point) ? Math.Clamp(diff * 0.2, 0, 1) + 0.09 : Math.Clamp(diff, 0, 1) + 0.09;
+                    //return IsInShadow(point) ? Math.Clamp(diff * 0.2, 0, 1) + 0.09 : Math.Clamp(diff, 0, 1) + 0.09;
 
                 }
             }
