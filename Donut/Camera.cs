@@ -149,9 +149,9 @@ namespace Donut
 
                     double diff = l * n;
 
-                    return 0.09 + Math.Clamp(diff + 0.2, 0, 1);
+                    //return 0.09 + Math.Clamp(diff + 0.2, 0, 1);
 
-                    //return IsInShadow(point) ? Math.Clamp(diff * 0.2, 0, 1) + 0.09 : Math.Clamp(diff, 0, 1) + 0.09;
+                    return IsInShadow(point) ? Math.Clamp(diff * 0.2, 0, 1) + 0.09 : Math.Clamp(diff, 0, 1) + 0.09;
 
                 }
             }
