@@ -193,57 +193,57 @@ namespace Donut
             Console.SetCursorPosition(0, 0);
         }
 
-        private double RayMarch(Vector3 ro, Vector3 rd)
-        {
-            double d0 = 0;
-            for (int i = 0; i < MAX_STEPS; i++)
-            {
-                Vector3 p = ro + rd * d0;
-                double dS = GetDist(p);
-                d0 += dS;
-                if (d0 > MAX_DIST || dS < SURF_DIST) break;
-            }
-            return d0;
-        }
-        private double GetDist(Vector3 point)
-        {
-            List<double> steps = new List<double>();
+        //private double RayMarch(Vector3 ro, Vector3 rd)
+        //{
+        //    double d0 = 0;
+        //    for (int i = 0; i < MAX_STEPS; i++)
+        //    {
+        //        Vector3 p = ro + rd * d0;
+        //        double dS = GetDist(p);
+        //        d0 += dS;
+        //        if (d0 > MAX_DIST || dS < SURF_DIST) break;
+        //    }
+        //    return d0;
+        //}
+        //private double GetDist(Vector3 point)
+        //{
+        //    List<double> steps = new List<double>();
 
-            foreach (var shape in shapes)
-                steps.Add(shape.GiveDist(point));
+        //    foreach (var shape in shapes)
+        //        steps.Add(shape.GiveDist(point));
 
-            double minDist = steps.Min();
+        //    double minDist = steps.Min();
 
-            return minDist;
-        }
+        //    return minDist;
+        //}
 
-        private double GetLight()
-        {
-            double d0 = RayMarch(Position, Direction);
+        //private double GetLight()
+        //{
+        //    double d0 = RayMarch(Position, Direction);
 
-            Vector3 p = Position + Direction * d0;
-            Vector3 l = (LightPos - p).Normalized();
-            Vector3 n = GetNormal(p);
+        //    Vector3 p = Position + Direction * d0;
+        //    Vector3 l = (LightPos - p).Normalized();
+        //    Vector3 n = GetNormal(p);
 
-            double diff = Math.Clamp(n * l, 0, 1);
+        //    double diff = Math.Clamp(n * l, 0, 1);
 
-            double d = RayMarch(p + n * SURF_DIST * 2, l);
-            if (d < (LightPos - p).Length) diff *= 0.1;
+        //    double d = RayMarch(p + n * SURF_DIST * 2, l);
+        //    if (d < (LightPos - p).Length) diff *= 0.1;
 
-            return diff;
-        }
-        private Vector3 GetNormal(Vector3 p)
-        {
-            double d = GetDist(p);
-            double e = 0.001;
-            Vector3 n = new Vector3
-                (
-                d - GetDist(new Vector3(p.x - e, p.y, p.z)),
-                d - GetDist(new Vector3(p.x, p.y - e, p.z)),
-                d - GetDist(new Vector3(p.x, p.y, p.z - e))
-                );
-            return n.Normalized();
-        }
+        //    return diff;
+        //}
+        //private Vector3 GetNormal(Vector3 p)
+        //{
+        //    double d = GetDist(p);
+        //    double e = 0.001;
+        //    Vector3 n = new Vector3
+        //        (
+        //        d - GetDist(new Vector3(p.x - e, p.y, p.z)),
+        //        d - GetDist(new Vector3(p.x, p.y - e, p.z)),
+        //        d - GetDist(new Vector3(p.x, p.y, p.z - e))
+        //        );
+        //    return n.Normalized();
+        //}
 
     }
 }

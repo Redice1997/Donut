@@ -8,26 +8,26 @@ namespace Donut
         
         static void Main(string[] args)
         {
-            Sphere s1 = new Sphere(0, 1, 0);
+            //Sphere s1 = new Sphere(0, 1, 0);
 
-            Sphere s2 = new Sphere(-2, 1, 0);           
+            //Sphere s2 = new Sphere(-2, 1, 0);           
         
-            Plane p1 = new Plane();
+            //Plane p1 = new Plane();
 
             Donut d1 = new Donut(0, 1, 0);            
             d1.Axis = new Vector3(0, 0, 1);
             d1.Thickness = 0.4;
 
-            Capsule c1 = new Capsule();
-            c1.Radius = 0.4;            
-            c1.Length = 3;
-            c1.Axis = new Vector3(1, 1, 1);
-            c1.Position = new Vector3(0, 2, 0);
+            //Capsule c1 = new Capsule();
+            //c1.Radius = 0.4;            
+            //c1.Length = 3;
+            //c1.Axis = new Vector3(1, 1, 1);
+            //c1.Position = new Vector3(0, 2, 0);
 
             Camera cam = new Camera(0, 1, -6);                   
             cam.Zoom = 3;
             cam.SetResolution(150, 60);
-            cam.LookAt(0, 1, 0);
+            cam.LookAt(d1.Position);
             cam.LightPos = new Vector3(4, 5, 0);
 
             int t = 0;
@@ -42,8 +42,7 @@ namespace Donut
                 d1.Axis += new Vector3(Math.Sin(t * 0.2), Math.Cos(t * 0.1), Math.Cos(t * 0.2));
                 cam.Show(d1);
                 t++;
-            }
-            Console.ReadKey();        
+            }               
             
 
         }
