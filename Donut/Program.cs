@@ -8,11 +8,11 @@ namespace Donut
         
         static void Main(string[] args)
         {
-            //Sphere s1 = new Sphere(0, 1, 0);
+            Sphere s1 = new Sphere(0, 1, 0);
 
-            //Sphere s2 = new Sphere(-2, 1, 0);           
+            Sphere s2 = new Sphere(-2, 1, 0);           
         
-            //Plane p1 = new Plane();
+            Plane p1 = new Plane();
 
             Donut d1 = new Donut(0, 1, 0);            
             d1.Axis = new Vector3(0, 0, 1);
@@ -27,7 +27,7 @@ namespace Donut
             Camera cam = new Camera(0, 1, -6);                   
             cam.Zoom = 3;
             cam.SetResolution(150, 60);
-            cam.LookAt(d1.Position);
+            cam.LookAt(0, 1, 0);
             cam.LightPos = new Vector3(4, 5, 0);
 
             int t = 0;

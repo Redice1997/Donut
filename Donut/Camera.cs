@@ -90,7 +90,7 @@ namespace Donut
         {
             this.shapes = shapes;
             char[] image = new char[xResolution * yResolution];
-            char[] grad = { ' ', '.', ':', '!', '/', '(', 'l', '1', 'Z', 'H', '9', '9', 'W', '8', '$', '@' };
+            string grad = " .,:!/(l1ZH9W8$@";            
             Console.SetWindowPosition(0, 0);
             Console.SetWindowSize(xResolution, yResolution);
             Console.SetBufferSize(xResolution, yResolution);
